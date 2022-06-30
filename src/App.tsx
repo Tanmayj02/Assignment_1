@@ -1,24 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {FetchProfiles1} from './Component/FetchProfiles1';
+import {Taskify} from './Testing/Taskify';
+
 
 function App() {
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+       <FetchProfiles1 />  
+      {/* <Taskify />  */}
     </div>
   );
 }
