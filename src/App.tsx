@@ -1,5 +1,5 @@
 import './App.css';
-import {FetchProfiles1} from './Component/FetchProfiles1';
+import {FetchProfiles} from './Component/FetchProfiles';
 import {Taskify} from './Testing/Taskify';
 
 
@@ -8,7 +8,7 @@ function App() {
 
   return (
     <div className="App">
-       <FetchProfiles1 />  
+       <FetchProfiles />  
       {/* <Taskify />  */}
     </div>
   );
