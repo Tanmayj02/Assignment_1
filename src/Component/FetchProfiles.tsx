@@ -2,37 +2,9 @@
 import { ComponentFactory, useEffect, useState } from "react";
 import User from "./User";
 import '../CSS/FetchProfile.css';
+import { Col, Container, Row } from "react-bootstrap";
+import PersonProf from "./PersonProf";
 
-
-interface Geograph {
-  lat: any;
-  lng: any;
-}
-
-interface Addressdetails {
-  street: string;
-  suite: string;
-  city: string;
-  zipcode: string;
-  geo: Geograph;
-}
-
-interface Companydetails {
-  name: string;
-  catchPhrase: string;
-  bs: string;
-}
-
-interface PersonProf {
-  id: number;
-  name: string;
-  username: string;
-  email: string;
-  address: Addressdetails;
-  phone: any;
-  website: string;
-  company: Companydetails;
-}
 
 function getUsers(): Promise<PersonProf[]> {
   // For now, consider the data is stored on a static `users.json` file
@@ -55,16 +27,24 @@ export const FetchProfiles = () => {
   }, [])
   
   return (
-    <div className="container">
+      <Container fluid>
+      <Row> 
+      
       {users.map((usr) => (
+        <Col xs={6} md={4} lg={3} className="gy-1 gx-0 p-3" >
         <User
-          key={usr.name}
+          key={usr.phone}
           name={usr.name}
           email={usr.email}
           phone={usr.phone}
           website={usr.website}
         />
-      ))}
-    </div>
+        </ Col > 
+      ))
+      }
+        {/* <User key={users[0].name} name={users[0].name} email={users[0].email} phone={users[0].phone} website={users[0].website} /> */}
+      </ Row > 
+      </ Container>
+
   );
 };

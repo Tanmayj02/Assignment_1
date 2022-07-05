@@ -1,23 +1,24 @@
+import { Button, Card, Container, Row , Col} from "react-bootstrap";
 import "../CSS/User.css";
-//import MailOutlineIcon from '@material-ui/icons/MailOutlined';
+import CardBody from "./CardBody";
+import CardFooter from "./CardFooter";
+import CardHeader from './CardHeader'
+import userDetail from "./UserDetails"
 
-interface Props {
-  name: string;
-  email: string;
-  phone: string;
-  website: string;
-}
-
-const User = ({ name, email, phone, website }: Props) => {
-  var url: string = "https://avatars.dicebear.com/v2/avataaars/";
-  url = url.concat(name, ".svg?options[mood][]=happy");
+const User = ({ name, email, phone, website }: userDetail) => {
   return (
-    <div className="card">
-      <img className="card_image" src={url} />
-      <h2> name is {name} </h2>
-      <h2> Phone is {phone} </h2>
-      <h2> website is {website}</h2>
-    </div>
+    
+    // <Container className="bg-secondary" >
+    //   <Row> 
+    //   <Col xs={12} md={4} lg={3} >
+    <Container fluid>
+      <Card>
+      <CardHeader name={name} email={email} phone={phone} website={website} />
+      <CardBody name={name} email={email} phone={phone} website={website}/>
+      <CardFooter name={name} email={email} phone={phone} website={website}/>
+      </Card>
+      </ Container>
+      
   );
 };
 
