@@ -1,10 +1,9 @@
 //import axios from 'axios';
 import { ComponentFactory, useEffect, useState } from "react";
 import User from "./User";
-import '../CSS/FetchProfile.css';
+import "../CSS/FetchProfile.css";
 import { Col, Container, Row } from "react-bootstrap";
 import PersonProf from "./PersonProf";
-
 
 function getUsers(): Promise<PersonProf[]> {
   // For now, consider the data is stored on a static `users.json` file
@@ -15,36 +14,33 @@ function getUsers(): Promise<PersonProf[]> {
   );
 }
 
-
 export const FetchProfiles = () => {
-
-  const [users , setUsers] = useState<PersonProf[]>([]);
+  const [users, setUsers] = useState<PersonProf[]>([]);
 
   useEffect(() => {
-    getUsers().then( (usersData) => {
-        setUsers(usersData);
-    })
-  }, [])
-  
-  return (
-      <Container fluid>
-      <Row> 
-      
-      {users.map((usr) => (
-        <Col xs={6} md={4} lg={3} className="gy-1 gx-0 p-3" >
-        <User
-          key={usr.phone}
-          name={usr.name}
-          email={usr.email}
-          phone={usr.phone}
-          website={usr.website}
-        />
-        </ Col > 
-      ))
-      }
-        {/* <User key={users[0].name} name={users[0].name} email={users[0].email} phone={users[0].phone} website={users[0].website} /> */}
-      </ Row > 
-      </ Container>
+    getUsers().then((usersData) => {
+      setUsers(usersData);
+    });
+  }, []);
 
+  const onMenuItemClicked = (item: any): any => {
+    alert("Item Clicked" + JSON.stringify(item));
+  };
+
+  return (
+    <Container fluid>
+      <Row>
+        {users.map((userItem) => (
+          <Col xs={6} md={4} lg={3} className="gy-1 gx-0 p-3">
+            <User
+              key={userItem.id}
+              userData={userItem}
+              onMenuItemClicked={onMenuItemClicked}
+            />
+          </Col>
+        ))}
+        {/* <User key={users[0].name} name={users[0].name} email={users[0].email} phone={users[0].phone} website={users[0].website} /> */}
+      </Row>
+    </Container>
   );
 };
