@@ -11,12 +11,7 @@ const User = ({ userData, onMenuItemClicked }: any) => {
     <Col xs={6} md={4} lg={3} className="gy-1 gx-0 p-3">
       <Container fluid>
         <Card>
-          <CardHeader
-            name={name}
-            email={email}
-            phone={phone}
-            website={website}
-          />
+          <CardHeader name={name} />
           <CardBody name={name} email={email} phone={phone} website={website} />
           <CardFooter id={id} onMenuItemClicked={onMenuItemClicked} />
         </Card>
