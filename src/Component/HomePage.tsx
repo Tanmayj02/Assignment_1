@@ -5,6 +5,10 @@ import "../CSS/FetchProfile.css";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import UserInformation from "./UserInformation";
 import DisplayModal from "./DisplayModal";
+import { useDispatch } from "react-redux";
+import deleteUser from "../Redux/Actions/actions";
+import store from "../Redux/Store/Store";
+import { useSelector } from "react-redux";
 
 function getUsers(): Promise<UserInformation[]> {
   return fetch("https://jsonplaceholder.typicode.com/users").then((res) =>
@@ -36,6 +40,8 @@ export const HomePage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const dispatch = useDispatch();
+
   let MenuItems: { label: string; icon: string }[] = [
     {
       label: "Like User",
@@ -60,22 +66,6 @@ export const HomePage = () => {
   const onMenuItemClicked = (item: any): any => {
     const { id, label } = item;
 
-    // switch (label) {
-    //   case UserCardActions.LIKE_DISLIKE:
-    //     setShow(true);
-    //     setEditingUserId(id);
-    //     console.log(id);
-    //     break;
-    //   case UserCardActions.EDIT:
-    //     const updatedUsers = users.filter((userItem) => userItem.id != id);
-    //     setUsers(updatedUsers);
-    //     // deleteUser(id)
-    //     break;
-    //   case UserCardActions.DELETE:
-    //     break;
-    //   default:
-    // }
-
     if (label === "Edit USer") {
       setShow(true);
       setEditingUserId(id);
@@ -83,46 +73,10 @@ export const HomePage = () => {
     } else if (label === "Like User") {
       setLikeDislike(!likeDislike);
     } else if (label === "Delete User") {
-      // Filter
-      const updatedUsers = users.filter((userItem) => userItem.id != id);
-      setUsers(updatedUsers);
-
-      // //
-      // const deletedUserIndex = users.findIndex((userItem) => userItem.id == id);
-      // if (deletedUserIndex > 0) {
-      //   console.log("No index found");
-      //   return;
-      // }
-      // setUsers(users.splice(deletedUserIndex, 1));
-
-      // let newUser = [];
-      // for (var i = 0; i < users.length; i++) {
-      //   if (users[i].id != id) {
-      //     // newUser.push(users[i])
-      //     delete users[i];
-      //   }
-      // }
-
-      // let deletedUserIndex1 = -1;
-      // for (var i = 0; i < users.length; i++) {
-      //   if (users[i].id == id) {
-      //     deletedUserIndex1 = i;
-      //   }
-      // }
-      // setUsers(users.splice(deletedUserIndex1, 1));
+      dispatch(deleteUser(id));
     }
   };
 
-  // const DeleteUser = ({ id }: any) => {
-  //   console.log(id);
-  //   for (var i = 0; i < users.length; i++) {
-  //     if (users[i].id == 1) {
-  //       console.log(users);
-  //       users.splice(i, 1);
-  //       console.log(users);
-  //     }
-  //   }
-  // };
   const renderModal = () => {
     const selectedUser = users.filter(
       (userItem: UserInformation) => userItem.id === editingUserId
@@ -137,18 +91,15 @@ export const HomePage = () => {
           person={selectedUser}
         />
       </>
-      // <DisplayModal
-      //   isVisible={show}
-      //   title={person?.name}
-      //   handleClose={handleClose}
-      // >
-      //   {JSON.stringify(person)}
-      // </DisplayModal>
     );
   };
 
-  const renderAllUsers = () => {
-    return users.map((userItem) => (
+  const RenderAllUsers = () => {
+    const temp: any = JSON.parse(
+      JSON.stringify(useSelector((state: any) => state.users))
+    );
+    // console.log("This is temp" + JSON.parse(JSON.stringify(temp)));
+    return temp.map((userItem: any) => (
       <User
         key={userItem.id}
         userData={userItem}
@@ -161,7 +112,7 @@ export const HomePage = () => {
   return (
     <Container fluid>
       <Row>
-        {renderAllUsers()}
+        {RenderAllUsers()}
         {renderModal()}
       </Row>
     </Container>
