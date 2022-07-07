@@ -7,20 +7,15 @@ import UserInformation from "./UserInformation";
 import DisplayModal from "./DisplayModal";
 import { useDispatch } from "react-redux";
 import deleteUser from "../Redux/Actions/actions";
+import { setAllUser } from "../Redux/Actions/actions";
 import store from "../Redux/Store/Store";
 import { useSelector } from "react-redux";
 
-function getUsers(): Promise<UserInformation[]> {
+function getUsersFromApi(): Promise<UserInformation[]> {
   return fetch("https://jsonplaceholder.typicode.com/users").then((res) =>
     res.json()
   );
 }
-
-const UserCardActions = {
-  LIKE_DISLIKE: { label: "Like", icon: "" },
-  EDIT: { label: "Edit", icon: "" },
-  DELETE: { label: "Delete", icon: "" },
-};
 
 const likeUserImageUrl: string =
   "https://www.creativefabrica.com/wp-content/uploads/2020/03/09/Like-icon-vector-Graphics-3481777-1-1-580x386.jpg";
@@ -32,7 +27,7 @@ const deleteUserImageUrl =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADpCAMAAABx2AnXAAAAhFBMVEX///8AAAD+/v77+/u0tLR7e3uhoaH19fXOzs6cnJwxMTG7u7sJCQmDg4MZGRkiIiLf39/v7+/p6elzc3PU1NTl5eWnp6fd3d1wcHBqampgYGDHx8fAwMCUlJRJSUlra2tPT08QEBBBQUGKiopXV1cXFxeurq5TU1M6OjorKysfHx9CQkLWrflCAAAM7ElEQVR4nO1dC3+qPg/OGrEg40zuIqJuetzt+3+/t0lbxJ3b8GyH7v33+Tl1FTAPSZu0TSuAh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh8d/EIIfIMRFmfjV4V8FqBgJfj1zE8jFU4r1AVAU6E8u66VFKfH/QGdCoHq0yeKmx10eS8SpBftbkMnh4e7mAt+D9MubIjFb3dzc3p5p0dvHqcX6ayhe85s3IGbJ1IL9LQRkT0TmeRUY5Pr/kBqQr1vTlMJO3xSPp/hcFu5JZx199nUrmhK+IwWdgBpH48s296okQPGlvZmAhJrBUPQOWmD9oIoaahi/MjGhiZFDM1GIqF+VLTYpfGlewBp7CcW5oUBFjDUG7rYdgoUTHOiKn8OYoo4adYkhhmg0aE5WRmre6LB5WmLcIsDv7j0R+1YMS5ZbZYo7CebGCPGm2SfCRHJCkFw6zJVFWPwcDRE7FUUY2iNi8mTHVp2hVa0Cx6w/PSxSvk+T+zgyHSz2tzfXoMmQ2/zqIjBZtOp2TduuaIOR3R/k/zXrigwPsrcHBOnEGuPKjhHJdfsL6W+Z1u2Q3a19vr2Zc9esHHysr5PIyRsPAeHdWzLvxoIjRoHND7djNrWLUzX/wKIcg9HIDyFqxaQR/Z9w6e47XW4tp/Xe6n5n5JXu4j8f+yMGwSL2MbEoqNG8LSeOS1TNvyd9wejOvhh6Yeydsnq3I5XVkxIjD5ZR87AeHSkIE6vYC+mQmB1bQMSKaTUmjMbWOlwYB+x56fCYwyp1qwIHNKa+WxEjjY0X49yT0ZdCPQBpiC1xWlME7DU29txhiNiH0T2xqU0RrCl+lBiC6titA8RET0z0A/Vw+RaGpb8qB+PuhSONR0/sA5FM33j0xLbx7MMQHx0i9vGYmBgYYtd1x9wlRpU9uz64/x2Wk/ZbqPeM0WfwCuSEtDhWVP2WtqqiKprPq0r9zf8SfIFqk07KS0dFfVz/obYz/ZgHxXRSscO6ppGK66GukxYFX45DxkmJ6SidA4rZ4j5f/o08itfh+/Nc0u2aeJTY0qKKxjMN1d/MLQuI1SWeW+BRfidmqen+tjR9PhhcEn20Ls6D2Gy5oMP6y6QI/pDmPr+dhmHkxCBbLMzckCliXiikRDNYTcQk02RVqGLKiujVQsdLGhZ63jhBSYNIZI9Kqm15nlMhXsV616Lu9yuHFzerQpmY1qA8HZOhE1Zl6Upd4qlwiRgNwK/pdi/PGlMUa2WeiwJM93ijQpR9KUzVnN3QGNvFNfjeqCMcIkaPnAKG2t5ulm5OIWRsZpA4e+BbzNMNyg6pb7LotcNKLRdvyDoAJSz3okIYqoyJzezkFxF7ifXsDErqTS7C/nx61PeqbDcRg5+C+8UcMs4GGjMZHjPzv6ADvse6uSNit3qE234MUHCQ6FAV0yxmpJ7uYoDGakzLGhlTZLuzGhuOv5EbozSJCRj8CiR6S2PuAV5JjJpRniWrHCKm2++SElWOOGzA30+M20pyY/etS8TYG0vqcC6u1phyCOQwvtUuEdPtHudIDT3TOGIC6QJ3E8/4vQG3Hjy4lA0Kx5gihSZUSRduBIkDGA89CIjGEkvp/P3Ug1M/wGSDxedB/HGNh4Alnd+4pjByZCRYdJ3GqLClUbzEuTwkoQOH/EpTVHw4Tjk5SMzWkXPJ+4lRr5ODzdZBYkiCPV1viuTGaJzUsUqmxCEP/cJz5GZ2aAQx1eS8aj/oHDHEvRLsNoVrWkWiQ/flHoR7xLQj07Lqv1F+LL1nS3ativVpzTN2ZHp6cxSxQrsxdM2Rid6RYd+EjzFF2NDZB/eIaQ/LSyBsuvaoxgNsb8y1OqZErEm0FZwnzkeZIueabZwkVlK7thbXtYp9Ps4kwv8enAe3T8UVpqjaVPLP36edx/wFREqyvdZm1GqkKUoaLV1kLhIzY4XtVZEHlFtV8Jiie3UMEMmR3cW2/o+L7jn9Mpdurnc5UUxVXUcsppankw6yAjPiGQHYxKoxpniiiKpCF9eUmTHTA4BNix2jsUgPLDhpiRDSdEkgbdbyKGKd7mY6qDAlU00tW5NdEysi9Z/vQusq3AJmtDBgX5ulfKM0llLq9mshnFy4aaU1My6jiC1puPVYukeKIHjRxLf2msiD3dgqFU5WMtRNm43QR9Wx9pm6PGh7305BGWBFTE4gRvkx/pC7mZ2bjT31oV9IPLP4cpTGuPc9d5OYkqrVjuyKxoOGgb+f3DNDhhBm6fZYYgLcS8oZQkBGQ4vbDEf6MeFgUs4AlBJGXc27cmxI1ScsgZOtImGlBy5MvtSQmLDExM9MkZNyjjxN62L7Ifr0HJ14Or9nYiZNzBITP2k8lnQLGn0NB4F2MFjo/y5SjkxmDs8298SsetxLyhmAJu/Os5qcFqaJsXnpsOQlNpmMF7lU/TCwMUzXQEuH7/nOUx1DsMQ4dRHQEGPJUeY88CPMrJNzSTkXoMw86kPvOf1ZPapzWt+58eC0PpAJJYnp9l3oTT9uXUrKuQC19zQk86wbbcEhOzknzobmRMzHpdAsTSKmceXsJu6dHC0FM4LD6Tl2CzTRrvKNHlGjbdJmq6B3XCCrXVKY+SadlPPiVlLOGUyAHO1NqqeSaDYvg8Ei0my4sAMzTk/S+qOqufjXAo+A0B76vAwRh319AYMVwsJuR8KZz3TWdhKR3wPxxpHpwuHYLg57yKjPIGI15a64l5RjwXmmvSPTRWKgMs4MtpPMOkzmZ7xwYw6CGJj0HAQjtriwxeGMA1PSTYdNynGVGHdcSMTjJRUc/tMLb6sYFZBTu3HWjemkQyJ2J8WFcn53Doco1D+9KV0lRtpAdrU3+ahsDb3nzmL8zhn/CHjOMb/ZbcJ3og3bhLfMidzLXTHQrjZd691/Xu7eiRe9E9DWWUvUKkMIn8Yui6ajX2bvrZX/HrbBaBd/pPID7qhz46wp6kACIc0X41T23CxNEOIyePnN/JC8G4eoTzRwG2ZKAt+3i06/0HFiqd+D0VK+251PCZtvZEYz/gTW7LQSvxujNn1EGwu7DxvSv7NB+CKsNHpznFgODw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8Pj/8GhLCPficzm6xtlyien/t90swh5qDB0mE4r7fVlzCHgbDXPf/fX+OTiJklGzYBnVc186+gIb+Y/S1wmKFOi/HtM5o7g3qFjj4d0O6oxlfSP9Omryt4HYkpvlh3/LG0zAqx4qR/bMvslMC/q8ZioOVi/tIq7VewmJXePVktOmh1YP8FdqmLLbQL+C+s4KOJodBLvGYJGBNL5xK6Ui+u0hKh6FIwv5sG2a6E4aIwvZbH2hgx604I822TitN+JxGKPAMoVyWctk2mntalOG13Kchkgxjtx638HAHSU5aKWSJTlBKkrHe1PIYS0xSFVE/0ONZIr3RkmS8xJeXIVB2tzlQfSHovtEYweJpDcUxPQbgvqzWUeatuVneXFU0aBctGzukpCjB/3kCcyy74FFp8i0/rVRZvg+0yOkAXJYugWzTxJs+7LFgn7TFfds+rYr5u5jJaB3GwjDqiuGoOabBbb4qnPAianVJwWpBVbzYRVAmEeTCHdI9dE0o4VUmZLpVZpMs6mGVKe4kMq5n6Ntg0n0KMN6/ouhLilXqZdRBF6UrCNk13QbVtgw10yRLhUdbHNAvmR6XQPE/orHki0ngNbb5RwkewL2gPu5Q+iedQHqMmWsUAj+FTtOrCBA6lsuIgBIzXM/UuV4fPZxCu58f5JxFTj2x2WMYJVIcTE9spYtlyNWuLMqghi5MCH+VmBfKQ58qq8mRF4icVgNLwcrVZk4hrMriQt1CIIwF1tS4TpbHjXB2y3r8mD2spkxmWKYRHSJNYVcsoBqyjdfZnIa/iJUCWMqmY2CZI8y5dl7CtM6WstgwKKNIowm1Zb7N6F+/LdJOXzUmdGTdYhA8yDtqeGO0qrG7URulAHmZQPKZV3jZKR1mWBqEIlKriAOcN0DuEKiYltp/Cizd2EKfXBjcdnCLcHZMKg3V2etiUq6cu7WqYUVuWHOtwv1dUt+vNIUtXYVBi95RgtW2WdQ6nGNQtML87uX56aHB2UMo7PagGcf7KOumy6uF1sReHp52M6B0eH55yqOaftTr1vNIL37yaz38sFb1XOsckJsJA/WuafDReHvHzb//h+z4OvefVy0rRaNH+0Kz10+Zj7a/tikUbfvRbfPBPpuq1jEIbJoKwv3PIwYy+sjA/JKpDj8+gpYMgvckUfZvZi4Ol0vEQIva7eIA+CHqSeo8SHVUJswXQeesLNF6er258uL5fJhy73KTmQzEQTPPTgrEd6Zttojy9EY4J8sznWrOarf1hV7AbVumdWQRYgzChlfkm/YIw2BjkXfgft6miuH4jpdcAAAAASUVORK5CYII=";
 
 export const HomePage = () => {
-  const [users, setUsers] = useState<UserInformation[]>([]);
+  //const [users, setUsers] = useState<UserInformation[]>([]);
   const [show, setShow] = useState<boolean>(false);
   const [editingUserId, setEditingUserId] = useState<any>(null);
   const [likeDislike, setLikeDislike] = useState<boolean>(false);
@@ -41,6 +36,13 @@ export const HomePage = () => {
   const handleShow = () => setShow(true);
 
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUsersFromApi().then((users) => {
+      //setUsers(usersData);
+      dispatch(setAllUser(users));
+    });
+  }, []);
 
   let MenuItems: { label: string; icon: string }[] = [
     {
@@ -57,13 +59,7 @@ export const HomePage = () => {
     },
   ];
 
-  useEffect(() => {
-    getUsers().then((usersData) => {
-      setUsers(usersData);
-    });
-  }, []);
-
-  const onMenuItemClicked = (item: any): any => {
+  const onMenuItemClicked = (item: { id: number; label: string }): any => {
     const { id, label } = item;
 
     if (label === "Edit USer") {
@@ -77,11 +73,13 @@ export const HomePage = () => {
     }
   };
 
-  const renderModal = () => {
+  const ShowUserModal = () => {
+    const users: any = JSON.parse(
+      JSON.stringify(useSelector((state: any) => state.users))
+    );
     const selectedUser = users.filter(
       (userItem: UserInformation) => userItem.id === editingUserId
     );
-    //const person = selectedUser.shift();
     return (
       <>
         <DisplayModal
@@ -94,15 +92,15 @@ export const HomePage = () => {
     );
   };
 
-  const RenderAllUsers = () => {
-    const temp: any = JSON.parse(
+  const ShowAllUsers = () => {
+    const users: UserInformation[] = JSON.parse(
       JSON.stringify(useSelector((state: any) => state.users))
     );
     // console.log("This is temp" + JSON.parse(JSON.stringify(temp)));
-    return temp.map((userItem: any) => (
+    return users.map((user: UserInformation) => (
       <User
-        key={userItem.id}
-        userData={userItem}
+        key={user.id}
+        userData={user}
         menuItems={MenuItems}
         onMenuItemClicked={onMenuItemClicked}
       />
@@ -112,8 +110,8 @@ export const HomePage = () => {
   return (
     <Container fluid>
       <Row>
-        {RenderAllUsers()}
-        {renderModal()}
+        {ShowAllUsers()}
+        {ShowUserModal()}
       </Row>
     </Container>
   );
