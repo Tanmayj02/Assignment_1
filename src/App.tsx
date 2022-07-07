@@ -1,14 +1,11 @@
-import './App.css';
-import {FetchProfiles} from './Component/FetchProfiles';
-import {Taskify} from './Testing/Taskify';
-
+import "./App.css";
+import { HomePage } from "./Component/HomePage";
+import { Taskify } from "./Testing/Taskify";
 
 function App() {
-
-
   return (
     <div className="App">
-       <FetchProfiles />  
+      <HomePage />
       {/* <Taskify />  */}
     </div>
   );
