@@ -7,9 +7,11 @@ import UserInformation from "./UserInformation";
 import DisplayModal from "./DisplayModal";
 import { useDispatch } from "react-redux";
 import deleteUser from "../Redux/Actions/actions";
-import { setAllUser } from "../Redux/Actions/actions";
+import { setAllUsers } from "../Redux/ReduxSlice/usersSlice";
 import store from "../Redux/Store/Store";
 import { useSelector } from "react-redux";
+import { deleteSelectedUser } from "../Redux/ReduxSlice/usersSlice";
+import { editSelectedUser } from "../Redux/ReduxSlice/usersSlice";
 
 function getUsersFromApi(): Promise<UserInformation[]> {
   return fetch("https://jsonplaceholder.typicode.com/users").then((res) =>
@@ -35,14 +37,33 @@ export const HomePage = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  function handleSaveAndClose(
+    id: number,
+    editedNameByUser: string,
+    editedEmailByUser: string,
+    editedPhoneByUser: string,
+    editedWebsiteByUser: string
+  ) {
+    dispatch(
+      editSelectedUser({
+        id,
+        editedNameByUser,
+        editedEmailByUser,
+        editedPhoneByUser,
+        editedWebsiteByUser,
+      })
+    );
+    handleClose();
+  }
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     getUsersFromApi().then((users) => {
       //setUsers(usersData);
-      dispatch(setAllUser(users));
+      dispatch(setAllUsers(users));
     });
-  }, []);
+  }, [1]);
 
   let MenuItems: { label: string; icon: string }[] = [
     {
@@ -65,11 +86,10 @@ export const HomePage = () => {
     if (label === "Edit USer") {
       setShow(true);
       setEditingUserId(id);
-      console.log(id);
     } else if (label === "Like User") {
       setLikeDislike(!likeDislike);
     } else if (label === "Delete User") {
-      dispatch(deleteUser(id));
+      dispatch(deleteSelectedUser(id));
     }
   };
 
@@ -80,23 +100,27 @@ export const HomePage = () => {
     const selectedUser = users.filter(
       (userItem: UserInformation) => userItem.id === editingUserId
     );
-    return (
-      <>
-        <DisplayModal
-          show={show}
-          handleShow={handleShow}
-          handleClose={handleClose}
-          person={selectedUser}
-        />
-      </>
-    );
+    if (selectedUser.length > 0) {
+      return (
+        <>
+          <DisplayModal
+            show={show}
+            handleClose={handleClose}
+            handleSaveAndClose={handleSaveAndClose}
+            selectedUser={selectedUser}
+          />
+        </>
+      );
+    } else {
+      return;
+    }
   };
 
   const ShowAllUsers = () => {
     const users: UserInformation[] = JSON.parse(
       JSON.stringify(useSelector((state: any) => state.users))
     );
-    // console.log("This is temp" + JSON.parse(JSON.stringify(temp)));
+
     return users.map((user: UserInformation) => (
       <User
         key={user.id}

@@ -3,46 +3,43 @@ import { Col, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import UserInformation from "./UserInformation";
 
-// const DisplayModal = ({
-//   isVisible,
-//   handleClose,
-//   onSubmit,
-//   title,
-//   children,
-// }: any) => {
-//   const handleSubmit = () => {
-//     onSubmit && onSubmit();
-//     handleClose && handleClose();
-//   };
+const DisplayModal = ({
+  show,
+  handleClose,
+  selectedUser,
+  handleSaveAndClose,
+}: any) => {
+  const currentUser: UserInformation = selectedUser[0];
+  let id: any = currentUser.id;
+  let editedNameByUser: string = currentUser.name;
+  let editedEmailByUser: string = currentUser.email;
+  let editedPhoneByUser: string = currentUser.phone;
+  let editedWebsiteByUser: string = currentUser.website;
 
-//   return (
-//     <Modal show={isVisible} onHide={handleClose}>
-//       <Modal.Header closeButton>
-//         <Modal.Title>{title}</Modal.Title>
-//       </Modal.Header>
-//       <Modal.Body>{children}</Modal.Body>
-//       <Modal.Footer>
-//         <Button variant="secondary" onClick={handleClose}>
-//           Close
-//         </Button>
-//         <Button variant="primary" onClick={handleSubmit}>
-//           Save Changes
-//         </Button>
-//       </Modal.Footer>
-//     </Modal>
-//   );
-// };
+  const handleEditedNameByUser = (e: any) => {
+    editedNameByUser = e.target.value;
+  };
+  const handleEditedEmailByUser = (e: any) => {
+    editedEmailByUser = e.target.value;
+  };
+  const handlEditedPhoneByUser = (e: any) => {
+    editedPhoneByUser = e.target.value;
+  };
+  const handleEditedWebsiteByUser = (e: any) => {
+    editedWebsiteByUser = e.target.value;
+  };
 
-// export default DisplayModal;
-
-const DisplayModal = ({ show, handleShow, handleClose, person }: any) => {
-  //const [fname, setName] = useState<any>(users[0].name);
-  // const [email, setEmail] = useState<any>(users[0].email);
-  // const [website, setWebsite] = useState<any>(users[0].website);
-  // const [phone, setPhone] = useState<any>(users[0].phone);
-  console.log(person);
-  //const [name, setName] = useState<any>(person.name);
+  const handleSaveChanges = () => {
+    handleSaveAndClose(
+      id,
+      editedNameByUser,
+      editedEmailByUser,
+      editedPhoneByUser,
+      editedWebsiteByUser
+    );
+  };
   return (
     <>
       <Modal show={show} onHide={handleClose}>
@@ -57,7 +54,11 @@ const DisplayModal = ({ show, handleShow, handleClose, person }: any) => {
                   <Form.Label>Name</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Control type="text" />
+                  <Form.Control
+                    type="text"
+                    onChange={handleEditedNameByUser}
+                    placeholder="Name"
+                  />
                 </Col>
               </Row>
             </Form.Group>
@@ -67,27 +68,39 @@ const DisplayModal = ({ show, handleShow, handleClose, person }: any) => {
                   <Form.Label>Email</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Control type="email" placeholder="name@example.com" />
+                  <Form.Control
+                    type="email"
+                    placeholder="name@example.com"
+                    onChange={handleEditedEmailByUser}
+                  />
                 </Col>
               </Row>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Row>
                 <Col>
                   <Form.Label>Phone</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Control type="email" placeholder="Phone Number" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Phone Number"
+                    onChange={handlEditedPhoneByUser}
+                  />
                 </Col>
               </Row>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3">
               <Row>
                 <Col>
                   <Form.Label>Website</Form.Label>
                 </Col>
                 <Col>
-                  <Form.Control type="email" placeholder="Website" />
+                  <Form.Control
+                    type="text"
+                    placeholder="Website"
+                    onChange={handleEditedWebsiteByUser}
+                  />
                 </Col>
               </Row>
             </Form.Group>
@@ -97,7 +110,7 @@ const DisplayModal = ({ show, handleShow, handleClose, person }: any) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={handleClose}>
+          <Button variant="primary" onClick={handleSaveChanges}>
             Save Changes
           </Button>
         </Modal.Footer>
