@@ -1,5 +1,5 @@
 import { Button, Card, Container } from "react-bootstrap";
-import userDetail from "./UserDetails";
+import userDetail from "../../UserDetails";
 
 const CardBody = ({ name, email, phone, website }: userDetail) => {
   return (

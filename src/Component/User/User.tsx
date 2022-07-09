@@ -1,9 +1,9 @@
 import { Button, Card, Container, Row, Col } from "react-bootstrap";
-import "../CSS/User.css";
-import CardBody from "./CardBody";
-import CardFooter from "./CardFooter";
-import CardHeader from "./CardHeader";
-import userDetail from "./UserDetails";
+import "../../Style/User.css";
+import CardBody from "./UserCardComponent/CardBody";
+import CardFooter from "./UserCardComponent/CardFooter/CardFooter";
+import CardHeader from "./UserCardComponent/CardHeader";
+import userDetail from "../UserDetails";
 
 const User = ({ userData, menuItems, onMenuItemClicked }: any) => {
   const { name, email, phone, website, id } = userData;
@@ -13,12 +13,6 @@ const User = ({ userData, menuItems, onMenuItemClicked }: any) => {
         <Card>
           <CardHeader name={name} />
           <CardBody name={name} email={email} phone={phone} website={website} />
-          {/* <CardFooter
-            id={id}
-            onMenuItemClicked={onMenuItemClicked}
-            menuItems={menuItems}
-          /> */}
-
           <CardFooter
             id={id}
             menuItems={menuItems}

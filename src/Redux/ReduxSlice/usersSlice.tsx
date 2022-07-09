@@ -6,26 +6,26 @@ const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
-    setAllUsers(state, action) {
+    setAllUsers(userList, action) {
       return action.payload;
     },
 
-    deleteSelectedUser(state, action) {
+    deleteSelectedUser(userList, action) {
       const deleteUserId = action.payload;
-      const updatedUserList = state.filter(
+      const updatedUserList = userList.filter(
         (userItem: any) => userItem.id != deleteUserId
       );
       return updatedUserList;
     },
 
-    editSelectedUser(state, action) {
+    editSelectedUser(userList, action) {
       let findUserById: number = action.payload.id;
       let setUserName: string = action.payload.editedNameByUser;
       let setUserEmail: string = action.payload.editedEmailByUser;
       let setUserPhone: string = action.payload.editedPhoneByUser;
       let setUserWebsite: string = action.payload.editedWebsiteByUser;
 
-      const updatedUserList = state.map((user: { id: any }) => {
+      const updatedUserList = userList.map((user: { id: any }) => {
         if (user.id == findUserById) {
           return {
             ...user,

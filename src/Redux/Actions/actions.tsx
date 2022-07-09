@@ -19,3 +19,22 @@ export const setAllUser = (users: UserInformation[]) => {
     },
   };
 };
+
+export const editUser = ({
+  id,
+  editedNameByUser,
+  editedEmailByUser,
+  editedPhoneByUser,
+  editedWebsiteByUser,
+}: any) => {
+  return {
+    type: "EDIT USER",
+    payload: {
+      id,
+      editedNameByUser,
+      editedEmailByUser,
+      editedPhoneByUser,
+      editedWebsiteByUser,
+    },
+  };
+};
