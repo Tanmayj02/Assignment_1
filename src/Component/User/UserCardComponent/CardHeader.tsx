@@ -2,6 +2,7 @@ import Image from "react-bootstrap/Image";
 import { Button, Card, Container } from "react-bootstrap";
 import userDetail from "../../UserDetails";
 import { useEffect, useState } from "react";
+import "../../../Style/Modal.css";
 
 const CardHeader = ({ name }: any) => {
   const [url, setUrl] = useState<string>("");
@@ -19,12 +20,7 @@ const CardHeader = ({ name }: any) => {
   return (
     <Container fluid>
       <Card>
-        <Card.Img
-          src={url}
-          style={{
-            backgroundColor: "#eeeee4",
-          }}
-        />
+        <Card.Img src={url} className="imageheader" />
       </Card>
     </Container>
   );

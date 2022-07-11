@@ -3,9 +3,43 @@
   width: 30%;
   object-fit: fill;
   position: static; */
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 2px;
+  padding-right : 2px;
+  margin-top: 5px;
   height: 100%; 
   width: 100%;
-  max-width: 90px;
-  max-height: 80px; 
-  object-fit: cover
+  max-width: 50px;
+  max-height: 65px; 
+  object-fit: cover;
+/* background-color: azure; */
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+.imagefooter:hover {
+	-webkit-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+.imageheader{
+  background-color: #eeeee4;
+}
+
+@media only screen and (max-device-width: 400px) {
+  .imageheader {
+    max-height: 50px;
+  }
+}
+
+@media only screen and (min-device-width: 400px) {
+  .imageheader {
+    max-height: 150px;
+  }
+}
+
+@media only screen and (min-device-width: 800px) {
+  .imageheader {
+    max-height: 250px;
+  }
 }
