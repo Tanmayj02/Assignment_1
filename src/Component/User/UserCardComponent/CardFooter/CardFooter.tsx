@@ -2,12 +2,13 @@ import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import userDetail from "../../../UserDetails";
 import "../../../../Style/Modal.css";
 import { useState } from "react";
+import reportWebVitals from "../../../../reportWebVitals";
 
 const CardFooter = ({ id, onMenuItemClicked, menuItems }: any): any => {
   const [isLiked, setIsLiked] = useState<boolean>(true);
 
   return (
-    <div>
+    <div className="d-flex justify-content-around" style={{}}>
       {menuItems.map((item: any) => {
         if (item.label != "Like User") {
           return (

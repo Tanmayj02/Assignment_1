@@ -1,6 +1,11 @@
 .imagefooter{
-  height: 30%;
+  /* height: 30%;
   width: 30%;
   object-fit: fill;
-  position: static;
+  position: static; */
+  height: 100%; 
+  width: 100%;
+  max-width: 90px;
+  max-height: 80px; 
+  object-fit: cover
 }
