@@ -1,6 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const usersUrl: string = "https://jsonplaceholder.typicode.com/users";
 
 let initialState: any = [];
+
+export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
+  try {
+    const allUsers = await axios.get(usersUrl);
+    return allUsers.data;
+  } catch (error: any) {
+    return error.message;
+  }
+});
 
 const usersSlice = createSlice({
   name: "users",
@@ -40,6 +52,11 @@ const usersSlice = createSlice({
       });
       return updatedUserList;
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      return action.payload;
+    });
   },
 });
 

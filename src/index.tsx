@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { fetchUsers } from "./Redux/ReduxSlice/usersSlice";
 
 /*
 BOOTSTRAP
@@ -14,6 +15,8 @@ import { Provider } from "react-redux";
 import store from "./Redux/Store/Store";
 
 store.subscribe(() => console.log(store.getState()));
+
+store.dispatch(fetchUsers());
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
