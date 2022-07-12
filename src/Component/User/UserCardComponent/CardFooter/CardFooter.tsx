@@ -1,42 +1,19 @@
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
-import userDetail from "../../../UserDetails";
 import "../../../../Style/Modal.css";
 import { useState } from "react";
-import reportWebVitals from "../../../../reportWebVitals";
+import { menuItems } from "./MenuList";
 
-const CardFooter = ({ id, onMenuItemClicked, menuItems }: any): any => {
-  const [isLiked, setIsLiked] = useState<boolean>(true);
+const CardFooter = ({ id, onMenuItemClicked }: any) => {
+  const [isLiked, toggleIsLiked] = useState<boolean>(false);
 
   return (
     <div className="d-flex justify-content-around">
-      {menuItems.map((item: any) => {
-        // if (item.label != "Like User") {
-        //   return (
-        //     <img
-        //       onClick={() => {
-        //         onMenuItemClicked({ id, ...item });
-        //       }}
-        //       className="imagefooter"
-        //       src={item.icon}
-        //     ></img>
-        //   );
-        // } else {
-        //   return (
-        //     <img
-        //       onClick={() => {
-        //         setIsLiked((prevState) => !prevState);
-        //       }}
-        //       className="imagefooter"
-        //       src={isLiked ? item.icon.like : item.icon.dislike}
-        //     ></img>
-        //   );
-        // }
-
+      {menuItems.map((item: { label: string; icon: any }) => {
         switch (item.label) {
-          case "Edit USer":
+          case "Edit User":
           case "Delete User":
             return (
               <img
+                key={item.label}
                 onClick={() => {
                   onMenuItemClicked({ id, ...item });
                 }}
@@ -48,8 +25,9 @@ const CardFooter = ({ id, onMenuItemClicked, menuItems }: any): any => {
           case "Like User":
             return (
               <img
+                key={item.label}
                 onClick={() => {
-                  setIsLiked((prevState) => !prevState);
+                  toggleIsLiked((prevState) => !prevState);
                 }}
                 className="imagefooter"
                 src={isLiked ? item.icon.like : item.icon.dislike}

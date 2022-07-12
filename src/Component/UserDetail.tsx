@@ -1,6 +1,6 @@
 interface Geograph {
-  lat: any;
-  lng: any;
+  lat: string;
+  lng: string;
 }
 
 interface Addressdetails {
@@ -17,15 +17,15 @@ interface Companydetails {
   bs: string;
 }
 
-interface UserInformation {
+interface userDetail {
   id: number;
   name: string;
   username: string;
   email: string;
   address: Addressdetails;
-  phone: any;
+  phone: string;
   website: string;
   company: Companydetails;
 }
 
-export default UserInformation;
+export default userDetail;

@@ -1,4 +1,4 @@
-import UserInformation from "../../Component/UserInformation";
+import UserInformation from "../../Component/UserDetail";
 
 const deleteUser = (id: any) => {
   return {

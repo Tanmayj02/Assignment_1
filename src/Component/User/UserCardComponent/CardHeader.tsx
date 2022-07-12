@@ -1,6 +1,4 @@
-import Image from "react-bootstrap/Image";
 import { Button, Card, Container } from "react-bootstrap";
-import userDetail from "../../UserDetails";
 import { useEffect, useState } from "react";
 import "../../../Style/Modal.css";
 

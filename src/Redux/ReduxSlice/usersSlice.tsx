@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import userDetail from "../../Component/UserDetail";
 
 const usersUrl: string = "https://jsonplaceholder.typicode.com/users";
 
-let initialState: any = [];
+const initialState: userDetail[] = [];
 
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   try {
@@ -25,20 +26,20 @@ const usersSlice = createSlice({
     deleteSelectedUser(userList, action) {
       const deleteUserId = action.payload;
       const updatedUserList = userList.filter(
-        (userItem: any) => userItem.id != deleteUserId
+        (userItem: userDetail) => userItem.id != deleteUserId
       );
       return updatedUserList;
     },
 
     editSelectedUser(userList, action) {
-      let findUserById: number = action.payload.id;
-      let setUserName: string = action.payload.editedNameByUser;
-      let setUserEmail: string = action.payload.editedEmailByUser;
-      let setUserPhone: string = action.payload.editedPhoneByUser;
-      let setUserWebsite: string = action.payload.editedWebsiteByUser;
+      const findUserById: number = action.payload.id;
+      const setUserName: string = action.payload.editedNameByUser;
+      const setUserEmail: string = action.payload.editedEmailByUser;
+      const setUserPhone: string = action.payload.editedPhoneByUser;
+      const setUserWebsite: string = action.payload.editedWebsiteByUser;
 
-      const updatedUserList = userList.map((user: { id: any }) => {
-        if (user.id == findUserById) {
+      const updatedUserList = userList.map((user: { id: number }) => {
+        if (user.id === findUserById) {
           return {
             ...user,
             name: setUserName,

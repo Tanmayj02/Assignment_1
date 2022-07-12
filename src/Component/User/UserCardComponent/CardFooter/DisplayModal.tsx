@@ -1,9 +1,8 @@
-import React, { useState } from "react";
 import { Col, Row } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
-import UserInformation from "../../../UserInformation";
+import userDetail from "../../../UserDetail";
 
 const DisplayModal = ({
   show,
@@ -11,8 +10,8 @@ const DisplayModal = ({
   selectedUser,
   handleSaveAndClose,
 }: any) => {
-  const currentUser: UserInformation = selectedUser[0];
-  let id: any = currentUser.id;
+  const currentUser: userDetail = selectedUser[0];
+  const id: number = currentUser.id;
   let editedNameByUser: string = currentUser.name;
   let editedEmailByUser: string = currentUser.email;
   let editedPhoneByUser: string = currentUser.phone;

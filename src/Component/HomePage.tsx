@@ -1,48 +1,12 @@
-//import axios from 'axios';
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import User from "./User/User";
-import "../Style/FetchProfile.css";
-import { Button, Col, Container, Modal, Row } from "react-bootstrap";
-import UserInformation from "./UserInformation";
+import { Container, Row } from "react-bootstrap";
+import userDetail from "./UserDetail";
 import DisplayModal from "./User/UserCardComponent/CardFooter/DisplayModal";
 import { useDispatch } from "react-redux";
-import deleteUser from "../Redux/Actions/actions";
-import { setAllUsers } from "../Redux/ReduxSlice/usersSlice";
-import store from "../Redux/Store/Store";
 import { useSelector } from "react-redux";
 import { deleteSelectedUser } from "../Redux/ReduxSlice/usersSlice";
 import { editSelectedUser } from "../Redux/ReduxSlice/usersSlice";
-
-// function getUsersFromApi(): Promise<UserInformation[]> {
-//   return fetch("https://jsonplaceholder.typicode.com/users").then((res) =>
-//     res.json()
-//   );
-// }
-
-const likeUserImageUrl: string =
-  "https://media.istockphoto.com/vectors/editable-stroke-black-heart-line-icon-isolated-on-a-white-background-vector-id1204388520?k=20&m=1204388520&s=612x612&w=0&h=hgZuOxUdztgZNG9ryyYFYEgaq-tIjBe3TabgLttHD4E=";
-const dislikeUserImageUrl: string =
-  "https://media.istockphoto.com/vectors/heart-shape-vector-id936563406?k=20&m=936563406&s=612x612&w=0&h=Tkb2tgRrx6ytD3mCh9efAvnwKFmhLckLfmseRXzEdGg=";
-
-const editUserImageUrl: string =
-  "https://media.istockphoto.com/vectors/sign-up-icon-isolated-on-white-background-vector-illustration-vector-id1193039142?k=20&m=1193039142&s=612x612&w=0&h=e53ulqLdsZowR7K4kuoI8OoVwi8IbPff1CKHKNPmGBw=";
-const deleteUserImageUrl: string =
-  "https://media.istockphoto.com/vectors/garbage-bin-sign-vector-id1139466631?k=20&m=1139466631&s=612x612&w=0&h=F3hOMYdQTDn4NFEi94i9StIbDxJ1v7mX79lDxz1cXLk=";
-
-const MenuItems: { label: string; icon: any }[] = [
-  {
-    label: "Like User",
-    icon: { like: likeUserImageUrl, dislike: dislikeUserImageUrl },
-  },
-  {
-    label: "Edit USer",
-    icon: editUserImageUrl,
-  },
-  {
-    label: "Delete User",
-    icon: deleteUserImageUrl,
-  },
-];
 
 export const HomePage = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -71,17 +35,12 @@ export const HomePage = () => {
 
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   getUsersFromApi().then((users) => {
-  //     //setUsers(usersData);
-  //     dispatch(setAllUsers(users));
-  //   });
-  // }, []);
+  const users: userDetail[] = useSelector((state: any) => state.users);
 
-  const onMenuItemClicked = (item: { id: number; label: string }): any => {
+  const onMenuItemClicked = (item: { id: number; label: string }): void => {
     const { id, label } = item;
 
-    if (label === "Edit USer") {
+    if (label === "Edit User") {
       setShow(true);
       setEditingUserId(id);
     } else if (label === "Delete User") {
@@ -90,9 +49,9 @@ export const HomePage = () => {
   };
 
   const ShowUserModal = () => {
-    const users: any = useSelector((state: any) => state.users);
+    console.log("This is the Modal");
     const selectedUser = users.filter(
-      (userItem: UserInformation) => userItem.id === editingUserId
+      (userItem: userDetail) => userItem.id === editingUserId
     );
     if (selectedUser.length > 0) {
       return (
@@ -111,13 +70,10 @@ export const HomePage = () => {
   };
 
   const ShowAllUsers = () => {
-    const users: UserInformation[] = useSelector((state: any) => state.users);
-
-    return users.map((user: UserInformation) => (
+    return users.map((user: userDetail) => (
       <User
         key={user.id}
         userData={user}
-        menuItems={MenuItems}
         onMenuItemClicked={onMenuItemClicked}
       />
     ));

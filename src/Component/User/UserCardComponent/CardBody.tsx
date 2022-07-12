@@ -1,14 +1,8 @@
-import { Button, Card, Container, Row, Col } from "react-bootstrap";
-import userDetail from "../../UserDetails";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCoffee,
-  faPhone,
-  faMessage,
-  faGlobe,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPhone, faMessage, faGlobe } from "@fortawesome/free-solid-svg-icons";
 
-const CardBody = ({ name, email, phone, website }: userDetail) => {
+const CardBody = ({ name, email, phone, website }: any) => {
   return (
     <Container>
       <Card className="container p-1 content-justify p-2 ">
