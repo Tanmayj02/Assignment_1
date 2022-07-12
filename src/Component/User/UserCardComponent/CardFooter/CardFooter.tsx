@@ -1,13 +1,32 @@
 import "../../../../Style/Modal.css";
+import { FaIcons } from "react-icons/fa";
 import { useState } from "react";
 import { menuItems } from "./MenuList";
+import { FaBeer } from "react-icons/fa";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHeart,
+  faPen,
+  faDeleteLeft,
+  faHeartBroken,
+} from "@fortawesome/free-solid-svg-icons";
+import { useDispatch } from "react-redux";
 
-const CardFooter = ({ id, onMenuItemClicked }: any) => {
-  const [isLiked, toggleIsLiked] = useState<boolean>(false);
+const CardFooter = ({ id, onMenuItemClicked, isLiked }: any) => {
+  //const [isLiked, toggleIsLiked] = useState<boolean>(false);
 
   return (
     <div className="d-flex justify-content-around">
-      {menuItems.map((item: { label: string; icon: any }) => {
+      {menuItems.map(({ iconSelected, iconNotSelected, label }) => (
+        <div>
+          <FontAwesomeIcon
+            onClick={() => onMenuItemClicked(label, id)}
+            icon={isLiked ? iconSelected : iconNotSelected}
+          ></FontAwesomeIcon>
+        </div>
+      ))}
+
+      {/* {menuItems.map((item: { label: string; icon: any }) => {
         switch (item.label) {
           case "Edit User":
           case "Delete User":
@@ -22,7 +41,7 @@ const CardFooter = ({ id, onMenuItemClicked }: any) => {
               ></img>
             );
             break;
-          case "Like User":
+          case "e User":
             return (
               <img
                 key={item.label}
@@ -37,9 +56,19 @@ const CardFooter = ({ id, onMenuItemClicked }: any) => {
           default:
             return <> This is Invalid Input</>;
         }
-      })}
+      })} */}
     </div>
   );
 };
+
+// const MenuItemButton = ({ label, icon, isSelected, isClicked }: any) => {
+//   return <FontAwesomeIcon icon="check-square" />;
+//   // return ( <img
+//   //   key={item.label}
+//   //   onClick={isClicked}
+//   //   className="imagefooter"
+//   //   src={isLiked ? item.icon.like : item.icon.dislike}
+//   // ></img>)
+// };
 
 export default CardFooter;

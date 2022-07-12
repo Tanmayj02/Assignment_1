@@ -26,6 +26,8 @@ interface userDetail {
   phone: string;
   website: string;
   company: Companydetails;
+  isLiked?: boolean;
+  isDeleted?: boolean;
 }
 
 export default userDetail;

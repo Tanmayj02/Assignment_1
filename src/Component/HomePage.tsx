@@ -5,7 +5,10 @@ import userDetail from "./UserDetail";
 import DisplayModal from "./User/UserCardComponent/CardFooter/DisplayModal";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { deleteSelectedUser } from "../Redux/ReduxSlice/usersSlice";
+import {
+  deleteSelectedUser,
+  toggleisLiked,
+} from "../Redux/ReduxSlice/usersSlice";
 import { editSelectedUser } from "../Redux/ReduxSlice/usersSlice";
 
 export const HomePage = () => {
@@ -37,14 +40,27 @@ export const HomePage = () => {
 
   const users: userDetail[] = useSelector((state: any) => state.users);
 
-  const onMenuItemClicked = (item: { id: number; label: string }): void => {
-    const { id, label } = item;
-
+  const onMenuItemClicked = ({
+    label,
+    id,
+  }: {
+    label: string;
+    id: number;
+  }): void => {
+    const operation: string = label;
+    console.log("On Menu Clicked" + label + operation + id);
+    id = 2;
     if (label === "Edit User") {
       setShow(true);
       setEditingUserId(id);
     } else if (label === "Delete User") {
       dispatch(deleteSelectedUser(id));
+    } else if (label === "Like User") {
+      console.log("Like User");
+      dispatch(toggleisLiked({ id }));
+    } else {
+      setShow(true);
+      setEditingUserId(id);
     }
   };
 
@@ -70,7 +86,17 @@ export const HomePage = () => {
   };
 
   const ShowAllUsers = () => {
-    return users.map((user: userDetail) => (
+    // return users.map((user: userDetail) => (
+    //   <User
+    //     key={user.id}
+    //     userData={user}
+    //     onMenuItemClicked={onMenuItemClicked}
+    //   />
+    // ));
+    const updatedUserList = users.filter(
+      (userItem: userDetail) => userItem.isDeleted !== true
+    );
+    return updatedUserList.map((user: userDetail) => (
       <User
         key={user.id}
         userData={user}

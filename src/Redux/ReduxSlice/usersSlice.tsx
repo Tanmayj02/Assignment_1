@@ -22,12 +22,44 @@ const usersSlice = createSlice({
     setAllUsers(userList, action) {
       return action.payload;
     },
+    toggleisLiked(userList, action) {
+      console.log("here");
+      const findUserById: number = action.payload.id;
+      console.log(findUserById);
+
+      const updatedUserList = userList.map((user: any) => {
+        if (user.id === findUserById) {
+          const likeStatus = user.isLiked;
+          console.log(likeStatus);
+          return {
+            ...user,
+            isLiked: !likeStatus,
+          };
+        } else {
+          return user;
+        }
+      });
+      return updatedUserList;
+    },
 
     deleteSelectedUser(userList, action) {
+      // const deleteUserId = action.payload;
+      // const updatedUserList = userList.filter(
+      //   (userItem: userDetail) => userItem.id != deleteUserId
+      // );
+      // return updatedUserList;
       const deleteUserId = action.payload;
-      const updatedUserList = userList.filter(
-        (userItem: userDetail) => userItem.id != deleteUserId
-      );
+      const updatedUserList = userList.map((user: any) => {
+        if (user.id === deleteUserId) {
+          return {
+            ...user,
+            isDeleted: true,
+          };
+        } else {
+          return user;
+        }
+      });
+
       return updatedUserList;
     },
 
@@ -56,12 +88,24 @@ const usersSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      return action.payload;
+      const currentUsers: userDetail[] = action.payload;
+      const updatedUserList = currentUsers.map((user: any) => {
+        return {
+          ...user,
+          isLiked: false,
+          isDeleted: false,
+        };
+      });
+      return updatedUserList;
     });
   },
 });
 
-export const { setAllUsers, deleteSelectedUser, editSelectedUser } =
-  usersSlice.actions;
+export const {
+  setAllUsers,
+  deleteSelectedUser,
+  editSelectedUser,
+  toggleisLiked,
+} = usersSlice.actions;
 
 export default usersSlice.reducer;
