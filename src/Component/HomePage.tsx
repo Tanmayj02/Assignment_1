@@ -14,6 +14,11 @@ import { editSelectedUser } from "../Redux/ReduxSlice/usersSlice";
 export const HomePage = () => {
   const [show, setShow] = useState<boolean>(false);
   const [editingUserId, setEditingUserId] = useState<any>(null);
+  const [userNameToSearch, setUserNameToSearch] = useState<string>("");
+  // let userInput: string = "";
+  // const setUserInput = (userValue: string) => {
+  //   userInput = userValue;
+  // };
 
   const handleClose = () => setShow(false);
 
@@ -40,16 +45,9 @@ export const HomePage = () => {
 
   const users: userDetail[] = useSelector((state: any) => state.users);
 
-  const onMenuItemClicked = ({
-    label,
-    id,
-  }: {
-    label: string;
-    id: number;
-  }): void => {
+  const onMenuItemClicked = (label: string, id: number) => {
     const operation: string = label;
     console.log("On Menu Clicked" + label + operation + id);
-    id = 2;
     if (label === "Edit User") {
       setShow(true);
       setEditingUserId(id);
@@ -96,18 +94,53 @@ export const HomePage = () => {
     const updatedUserList = users.filter(
       (userItem: userDetail) => userItem.isDeleted !== true
     );
-    return updatedUserList.map((user: userDetail) => (
-      <User
-        key={user.id}
-        userData={user}
-        onMenuItemClicked={onMenuItemClicked}
+
+    // if (userInput === "") {
+    //   return updatedUserList.map((user: userDetail) => (
+    //     <User
+    //       key={user.id}
+    //       userData={user}
+    //       onMenuItemClicked={onMenuItemClicked}
+    //     />
+    //   ));
+    // } else {
+    //   return updatedUserList.map((user: userDetail) =>
+    //     user.name.toLowerCase().includes(userInput.toLowerCase()) ? (
+    //       <User
+    //         key={user.id}
+    //         userData={user}
+    //         onMenuItemClicked={onMenuItemClicked}
+    //       />
+    //     ) : null
+    //   );
+    // }
+
+    return updatedUserList.map((user: userDetail) =>
+      userNameToSearch === "" ||
+      user.name.toLowerCase().includes(userNameToSearch.toLowerCase()) ? (
+        <User
+          key={user.id}
+          userData={user}
+          onMenuItemClicked={onMenuItemClicked}
+        />
+      ) : null
+    );
+  };
+
+  const SearchBar = () => {
+    return (
+      <input
+        type="text"
+        placeholder="Search Users"
+        onChange={(e) => setUserNameToSearch(e.target.value)}
       />
-    ));
+    );
   };
 
   return (
     <Container fluid>
       <Row>
+        {SearchBar()}
         {ShowAllUsers()}
         {ShowUserModal()}
       </Row>
