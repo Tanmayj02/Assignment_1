@@ -10,7 +10,6 @@ import {
   faDeleteLeft,
   faHeartBroken,
 } from "@fortawesome/free-solid-svg-icons";
-import { useDispatch } from "react-redux";
 
 const CardFooter = ({ id, onMenuItemClicked, isLiked }: any) => {
   //const [isLiked, toggleIsLiked] = useState<boolean>(false);
@@ -20,6 +19,7 @@ const CardFooter = ({ id, onMenuItemClicked, isLiked }: any) => {
       {menuItems.map(({ iconSelected, iconNotSelected, label }) => (
         <div>
           <FontAwesomeIcon
+            key={iconSelected}
             onClick={() => onMenuItemClicked(label, id)}
             icon={isLiked ? iconSelected : iconNotSelected}
           ></FontAwesomeIcon>
@@ -60,15 +60,5 @@ const CardFooter = ({ id, onMenuItemClicked, isLiked }: any) => {
     </div>
   );
 };
-
-// const MenuItemButton = ({ label, icon, isSelected, isClicked }: any) => {
-//   return <FontAwesomeIcon icon="check-square" />;
-//   // return ( <img
-//   //   key={item.label}
-//   //   onClick={isClicked}
-//   //   className="imagefooter"
-//   //   src={isLiked ? item.icon.like : item.icon.dislike}
-//   // ></img>)
-// };
 
 export default CardFooter;
