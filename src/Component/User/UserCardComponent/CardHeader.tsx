@@ -15,10 +15,15 @@ const CardHeader = ({ name }: any) => {
       });
   }, []);
 
+  let routeToUserDetail: string = "/user/";
+  routeToUserDetail = routeToUserDetail.concat(name);
+
   return (
     <Container fluid>
       <Card>
-        <Card.Img src={url} className="imageheader" />
+        <a href={routeToUserDetail}>
+          <Card.Img src={url} className="imageheader" />
+        </a>
       </Card>
     </Container>
   );
