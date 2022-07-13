@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import User from "./User/User";
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import userDetail from "./UserDetail";
 import DisplayModal from "./User/UserCardComponent/CardFooter/DisplayModal";
 import { useDispatch } from "react-redux";
@@ -10,6 +10,8 @@ import {
   toggleisLiked,
 } from "../Redux/ReduxSlice/usersSlice";
 import { editSelectedUser } from "../Redux/ReduxSlice/usersSlice";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const HomePage = () => {
   const [show, setShow] = useState<boolean>(false);
@@ -130,10 +132,18 @@ export const HomePage = () => {
   const SearchBar = () => {
     return (
       <input
-        type="text"
-        placeholder="Search Users"
+        type="search"
         onChange={(e) => setUserNameToSearch(e.target.value)}
+        className="form-control rounded"
+        placeholder="Search User"
+        aria-label="Search"
+        aria-describedby="search-addon"
       />
+      // <div className="input-group rounded ">
+      // <div className="col-xs-3">
+      //   <input type="search" className="form-control" placeholder="Search" />
+      //   {/* <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon> */}
+      // </div>
     );
   };
 

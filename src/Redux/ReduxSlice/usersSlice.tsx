@@ -15,13 +15,10 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   }
 });
 
-const usersSlice = createSlice({
+const usersSlice: any = createSlice({
   name: "users",
   initialState,
   reducers: {
-    setAllUsers(userList, action) {
-      return action.payload;
-    },
     toggleisLiked(userList, action) {
       console.log("here");
       const findUserById: number = action.payload.id;
@@ -101,11 +98,7 @@ const usersSlice = createSlice({
   },
 });
 
-export const {
-  setAllUsers,
-  deleteSelectedUser,
-  editSelectedUser,
-  toggleisLiked,
-} = usersSlice.actions;
+export const { deleteSelectedUser, editSelectedUser, toggleisLiked } =
+  usersSlice.actions;
 
 export default usersSlice.reducer;

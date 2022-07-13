@@ -28,13 +28,23 @@
 
 @media only screen and (max-device-width: 400px) {
   .imageheader {
-    max-height: 50px;
+    max-height: 100px;
+  }
+}
+@media only screen and (max-device-width: 200px) {
+  .imageheader {
+    max-height: 70px;
   }
 }
 
 @media only screen and (min-device-width: 400px) {
   .imageheader {
     max-height: 150px;
+  }
+}
+@media only screen and (min-device-width: 600px) {
+  .imageheader {
+    max-height: 200px;
   }
 }
 
