@@ -40,11 +40,6 @@ const usersSlice: any = createSlice({
     },
 
     deleteSelectedUser(userList, action) {
-      // const deleteUserId = action.payload;
-      // const updatedUserList = userList.filter(
-      //   (userItem: userDetail) => userItem.id != deleteUserId
-      // );
-      // return updatedUserList;
       const deleteUserId = action.payload;
       const updatedUserList = userList.map((user: any) => {
         if (user.id === deleteUserId) {
@@ -67,7 +62,7 @@ const usersSlice: any = createSlice({
       const setUserPhone: string = action.payload.editedPhoneByUser;
       const setUserWebsite: string = action.payload.editedWebsiteByUser;
 
-      const updatedUserList = userList.map((user: { id: number }) => {
+      const updatedUsersList = userList.map((user: { id: number }) => {
         if (user.id === findUserById) {
           return {
             ...user,
@@ -80,20 +75,20 @@ const usersSlice: any = createSlice({
           return user;
         }
       });
-      return updatedUserList;
+      return updatedUsersList;
     },
   },
   extraReducers(builder) {
     builder.addCase(fetchUsers.fulfilled, (state, action) => {
-      const currentUsers: userDetail[] = action.payload;
-      const updatedUserList = currentUsers.map((user: any) => {
+      const currentUsersList: userDetail[] = action.payload;
+      const userListWithAdditionalField = currentUsersList.map((user: any) => {
         return {
           ...user,
           isLiked: false,
           isDeleted: false,
         };
       });
-      return updatedUserList;
+      return userListWithAdditionalField;
     });
   },
 });

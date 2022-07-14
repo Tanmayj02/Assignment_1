@@ -9,7 +9,7 @@ export const About = () => {
 
   useEffect(() => {
     fetch(
-      `https://avatars.dicebear.com/v2/avataaars/${username}}.svg?options[mood][]=happy`
+      `https://avatars.dicebear.com/v2/avataaars/${username}.svg?options[mood][]=happy`
     )
       .then((response) => response.blob())
       .then((imageBlob) => {
@@ -21,7 +21,7 @@ export const About = () => {
   const users: userDetail[] = useSelector((state: any) => state.users);
 
   const filterUserDetails = users.filter((user: any) => {
-    if (user.name === username) {
+    if (user.username === username) {
       return user;
     }
   });
@@ -37,7 +37,7 @@ export const About = () => {
           alt={username}
         />
         <p className="text-text-primary">
-          Name of the User is {selectedUserDetail.name}
+          Name of the User is {selectedUserDetail.username}
         </p>
         <p className="text-text-primary">
           Phone of the User is {selectedUserDetail.phone}
@@ -57,6 +57,4 @@ export const About = () => {
   } else {
     return <div> Users Does not exist</div>;
   }
-
-  //return <div>He is {username}</div>;
 };

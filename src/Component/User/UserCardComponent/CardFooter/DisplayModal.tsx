@@ -7,9 +7,9 @@ import userDetail from "../../../UserDetail";
 
 const DisplayModal = ({
   show,
-  handleClose,
+  handleCloseModal,
   selectedUser,
-  handleSaveAndClose,
+  handleSaveAndCloseModal,
 }: any) => {
   const currentUser: userDetail = selectedUser[0];
   const id: number = currentUser.id;
@@ -17,27 +17,27 @@ const DisplayModal = ({
   let editedEmailByUser: string = currentUser.email;
   let editedPhoneByUser: string = currentUser.phone;
   let editedWebsiteByUser: string = currentUser.website;
-  const [validateUserName, setValidateUserName] = useState("");
-  const [validateEmail, setValidateEmail] = useState("");
-  const [validatePhone, setValidatePhone] = useState("");
-  const [validateWebsite, setValidateWebsite] = useState("");
+  const [invalidNameText, setInvalidNameText] = useState("");
+  const [invalidEmailText, setInvalidEmailText] = useState("");
+  const [invalidPhoneText, setInvalidPhoneText] = useState("");
+  const [invalidWebsiteText, setInvalidWebsiteText] = useState("");
 
   useEffect(() => {
-    setValidateUserName("");
-    setValidateEmail("");
-    setValidatePhone("");
-    setValidateWebsite("");
+    setInvalidNameText("");
+    setInvalidEmailText("");
+    setInvalidPhoneText("");
+    setInvalidWebsiteText("");
   }, [show]);
 
   const handleEditedNameByUser = (e: any) => {
     editedNameByUser = e.target.value;
     let regex = new RegExp("[0-9]");
     if (regex.test(editedNameByUser)) {
-      setValidateUserName("User Name must not contain Number");
+      setInvalidNameText("User Name must not contain Number");
     } else if (editedNameByUser === "") {
-      setValidateUserName("User name cannot be Empty");
+      setInvalidNameText("User field cannot be Blank");
     } else {
-      setValidateUserName("");
+      setInvalidNameText("");
     }
   };
 
@@ -45,45 +45,36 @@ const DisplayModal = ({
     const regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
     editedEmailByUser = e.target.value;
     if (editedEmailByUser === "") {
-      setValidateEmail("Email cannot be Empty");
+      setInvalidEmailText("Email field cannot be Blank");
     } else if (!regex.test(editedEmailByUser)) {
-      setValidateEmail("Enter a valid Email Address");
+      setInvalidEmailText("Enter a valid Email Address");
     } else {
-      setValidateEmail("");
+      setInvalidEmailText("");
     }
   };
   const handlEditedPhoneByUser = (e: any) => {
     editedPhoneByUser = e.target.value;
     if (editedPhoneByUser === "") {
-      setValidatePhone("Phone Number cannot be empty");
+      setInvalidPhoneText("Phone field cannot be Blank");
     } else {
-      setValidatePhone("");
+      setInvalidPhoneText("");
     }
   };
   const handleEditedWebsiteByUser = (e: any) => {
     const regex = new RegExp("[a-z0-9]+.+[a-z0-9]");
     editedWebsiteByUser = e.target.value;
     if (editedWebsiteByUser === "") {
-      setValidateWebsite("Website cannot be Empty");
+      setInvalidWebsiteText("Website cannot be Empty");
     } else if (!regex.test(editedWebsiteByUser)) {
-      setValidateWebsite("Enter a valid website name");
+      setInvalidWebsiteText("Website field cannot be Blank");
     } else {
-      setValidateWebsite("");
+      setInvalidWebsiteText("");
     }
   };
 
-  const handleSaveChanges = () => {
-    handleSaveAndClose(
-      id,
-      editedNameByUser,
-      editedEmailByUser,
-      editedPhoneByUser,
-      editedWebsiteByUser
-    );
-  };
   return (
     <>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Basic Modal</Modal.Title>
         </Modal.Header>
@@ -99,7 +90,7 @@ const DisplayModal = ({
                 <Col>
                   <Form.Control
                     type="text"
-                    onChange={(e) => handleEditedNameByUser(e)}
+                    onChange={handleEditedNameByUser}
                     placeholder="Name"
                     defaultValue={editedNameByUser}
                   />
@@ -107,7 +98,7 @@ const DisplayModal = ({
               </Row>
               <Row>
                 <p className="d-flex justify-content-end text-danger mt-2">
-                  {validateUserName}
+                  {invalidNameText}
                 </p>
               </Row>
             </Form.Group>
@@ -121,7 +112,7 @@ const DisplayModal = ({
                 <Col>
                   <Form.Control
                     type="email"
-                    placeholder="name@example.com"
+                    placeholder="Email"
                     onChange={handleEditedEmailByUser}
                     defaultValue={editedEmailByUser}
                   />
@@ -129,7 +120,7 @@ const DisplayModal = ({
               </Row>
               <Row>
                 <p className="d-flex justify-content-end text-danger mt-2">
-                  {validateEmail}
+                  {invalidEmailText}
                 </p>
               </Row>
             </Form.Group>
@@ -151,7 +142,7 @@ const DisplayModal = ({
               </Row>
               <Row>
                 <p className="d-flex justify-content-end text-danger mt-2">
-                  {validatePhone}
+                  {invalidPhoneText}
                 </p>
               </Row>
             </Form.Group>
@@ -173,24 +164,32 @@ const DisplayModal = ({
               </Row>
               <Row>
                 <p className="d-flex justify-content-end text-danger mt-2">
-                  {validateWebsite}
+                  {invalidWebsiteText}
                 </p>
               </Row>
             </Form.Group>
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleCloseModal}>
             Close
           </Button>
           <Button
             variant="primary"
-            onClick={handleSaveChanges}
+            onClick={() =>
+              handleSaveAndCloseModal(
+                id,
+                editedNameByUser,
+                editedEmailByUser,
+                editedPhoneByUser,
+                editedWebsiteByUser
+              )
+            }
             disabled={
-              validateUserName !== "" ||
-              validateEmail !== "" ||
-              validatePhone !== "" ||
-              validateWebsite !== ""
+              invalidNameText !== "" ||
+              invalidEmailText !== "" ||
+              invalidPhoneText !== "" ||
+              invalidWebsiteText !== ""
             }
           >
             Save Changes

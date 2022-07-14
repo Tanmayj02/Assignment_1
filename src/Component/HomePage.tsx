@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import User from "./User/User";
-import { Col, Container, Row } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
 import userDetail from "./UserDetail";
 import DisplayModal from "./User/UserCardComponent/CardFooter/DisplayModal";
 import { useDispatch } from "react-redux";
@@ -11,20 +11,18 @@ import {
 } from "../Redux/ReduxSlice/usersSlice";
 import { editSelectedUser } from "../Redux/ReduxSlice/usersSlice";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const HomePage = () => {
   const [show, setShow] = useState<boolean>(false);
   const [editingUserId, setEditingUserId] = useState<any>(null);
   const [userNameToSearch, setUserNameToSearch] = useState<string>("");
-  // let userInput: string = "";
-  // const setUserInput = (userValue: string) => {
-  //   userInput = userValue;
-  // };
+  const dispatch = useDispatch();
 
-  const handleClose = () => setShow(false);
+  // Modal
 
-  function handleSaveAndClose(
+  const handleCloseModal = () => setShow(false);
+
+  function handleSaveAndCloseModal(
     id: number,
     editedNameByUser: string,
     editedEmailByUser: string,
@@ -40,32 +38,10 @@ export const HomePage = () => {
         editedWebsiteByUser,
       })
     );
-    handleClose();
+    handleCloseModal();
   }
 
-  const dispatch = useDispatch();
-
-  const users: userDetail[] = useSelector((state: any) => state.users);
-
-  const onMenuItemClicked = (label: string, id: number) => {
-    const operation: string = label;
-    console.log("On Menu Clicked" + label + operation + id);
-    if (label === "Edit User") {
-      setShow(true);
-      setEditingUserId(id);
-    } else if (label === "Delete User") {
-      dispatch(deleteSelectedUser(id));
-    } else if (label === "Like User") {
-      console.log("Like User");
-      dispatch(toggleisLiked({ id }));
-    } else {
-      setShow(true);
-      setEditingUserId(id);
-    }
-  };
-
   const ShowUserModal = () => {
-    console.log("This is the Modal");
     const selectedUser = users.filter(
       (userItem: userDetail) => userItem.id === editingUserId
     );
@@ -74,8 +50,8 @@ export const HomePage = () => {
         <>
           <DisplayModal
             show={show}
-            handleClose={handleClose}
-            handleSaveAndClose={handleSaveAndClose}
+            handleCloseModal={handleCloseModal}
+            handleSaveAndCloseModal={handleSaveAndCloseModal}
             selectedUser={selectedUser}
           />
         </>
@@ -85,49 +61,41 @@ export const HomePage = () => {
     }
   };
 
+  // Card Footer Functionality
+
+  const users: userDetail[] = useSelector((state: any) => state.users);
+
+  const onMenuItemClicked = (label: string, id: number) => {
+    if (label === "Edit User") {
+      setShow(true);
+      setEditingUserId(id);
+    } else if (label === "Delete User") {
+      dispatch(deleteSelectedUser(id));
+    } else if (label === "Like User") {
+      dispatch(toggleisLiked({ id }));
+    }
+  };
+
+  // Render All Users
+
   const ShowAllUsers = () => {
-    // return users.map((user: userDetail) => (
-    //   <User
-    //     key={user.id}
-    //     userData={user}
-    //     onMenuItemClicked={onMenuItemClicked}
-    //   />
-    // ));
-    const updatedUserList = users.filter(
+    const filteredUserList = users.filter(
       (userItem: userDetail) => userItem.isDeleted !== true
     );
 
-    // if (userInput === "") {
-    //   return updatedUserList.map((user: userDetail) => (
-    //     <User
-    //       key={user.id}
-    //       userData={user}
-    //       onMenuItemClicked={onMenuItemClicked}
-    //     />
-    //   ));
-    // } else {
-    //   return updatedUserList.map((user: userDetail) =>
-    //     user.name.toLowerCase().includes(userInput.toLowerCase()) ? (
-    //       <User
-    //         key={user.id}
-    //         userData={user}
-    //         onMenuItemClicked={onMenuItemClicked}
-    //       />
-    //     ) : null
-    //   );
-    // }
-
-    return updatedUserList.map((user: userDetail) =>
+    return filteredUserList.map((user: userDetail) =>
       userNameToSearch === "" ||
       user.name.toLowerCase().includes(userNameToSearch.toLowerCase()) ? (
         <User
           key={user.id}
-          userData={user}
+          userDetails={user}
           onMenuItemClicked={onMenuItemClicked}
         />
       ) : null
     );
   };
+
+  // Search Bar
 
   const SearchBar = () => {
     return (
@@ -136,14 +104,7 @@ export const HomePage = () => {
         onChange={(e) => setUserNameToSearch(e.target.value)}
         className="form-control rounded"
         placeholder="Search User"
-        aria-label="Search"
-        aria-describedby="search-addon"
       />
-      // <div className="input-group rounded ">
-      // <div className="col-xs-3">
-      //   <input type="search" className="form-control" placeholder="Search" />
-      //   {/* <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon> */}
-      // </div>
     );
   };
 
