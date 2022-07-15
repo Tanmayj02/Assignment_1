@@ -14,8 +14,6 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Provider } from "react-redux";
 import store from "./Redux/Store/Store";
 
-//store.subscribe(() => console.log(store.getState()));
-
 store.dispatch(fetchUsers());
 
 const root = ReactDOM.createRoot(

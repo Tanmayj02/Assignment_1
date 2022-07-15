@@ -1,5 +1,5 @@
 import { Card, Container } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import "../../../Style/Modal.css";
 
 const CardHeader = ({ username }: any) => {
@@ -10,8 +10,8 @@ const CardHeader = ({ username }: any) => {
     )
       .then((response) => response.blob())
       .then((imageBlob) => {
-        const imageURL = URL.createObjectURL(imageBlob);
-        setUserImageUrl(imageURL);
+        const imageObjectURL = URL.createObjectURL(imageBlob);
+        setUserImageUrl(imageObjectURL);
       });
   }, []);
 
@@ -29,4 +29,4 @@ const CardHeader = ({ username }: any) => {
   );
 };
 
-export default CardHeader;
+export default memo(CardHeader);

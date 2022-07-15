@@ -10,11 +10,10 @@ import {
   toggleisLiked,
 } from "../Redux/ReduxSlice/usersSlice";
 import { editSelectedUser } from "../Redux/ReduxSlice/usersSlice";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export const HomePage = () => {
   const [show, setShow] = useState<boolean>(false);
-  const [editingUserId, setEditingUserId] = useState<any>(null);
+  const [editingUserId, setEditingUserId] = useState<number>(-1);
   const [userNameToSearch, setUserNameToSearch] = useState<string>("");
   const dispatch = useDispatch();
 
@@ -71,7 +70,7 @@ export const HomePage = () => {
       setEditingUserId(id);
     } else if (label === "Delete User") {
       dispatch(deleteSelectedUser(id));
-    } else if (label === "Like User") {
+    } else {
       dispatch(toggleisLiked({ id }));
     }
   };
@@ -99,12 +98,17 @@ export const HomePage = () => {
 
   const SearchBar = () => {
     return (
-      <input
-        type="search"
-        onChange={(e) => setUserNameToSearch(e.target.value)}
-        className="form-control rounded"
-        placeholder="Search User"
-      />
+      <>
+        <Row className="d-inline-flex">
+          <input
+            type="search"
+            onChange={(e) => setUserNameToSearch(e.target.value)}
+            className="form-control rounded"
+            placeholder="Search User"
+            style={{ width: 345, height: 25 }}
+          />
+        </Row>
+      </>
     );
   };
 

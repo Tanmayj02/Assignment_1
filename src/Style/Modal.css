@@ -10,20 +10,21 @@
   margin-top: 5px;
   height: 100%; 
   width: 100%;
-  max-width: 50px;
-  max-height: 65px; 
+  max-width: 25px;
+  max-height: 25px; 
   object-fit: cover;
-/* background-color: azure; */
+  user-select: none;
 	-webkit-transition: .3s ease-in-out;
 	transition: .3s ease-in-out;
 }
 .imagefooter:hover {
-	-webkit-transform: scale(1.1);
-	transform: scale(1.1);
+	-webkit-transform: scale(1.2);
+	transform: scale(1.2);
 }
 
 .imageheader{
   background-color: #eeeee4;
+  user-select: none;
 }
 
 @media only screen and (max-device-width: 400px) {

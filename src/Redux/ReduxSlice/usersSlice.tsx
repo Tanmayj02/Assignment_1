@@ -20,14 +20,11 @@ const usersSlice: any = createSlice({
   initialState,
   reducers: {
     toggleisLiked(userList, action) {
-      console.log("here");
       const findUserById: number = action.payload.id;
-      console.log(findUserById);
 
       const updatedUserList = userList.map((user: any) => {
         if (user.id === findUserById) {
           const likeStatus = user.isLiked;
-          console.log(likeStatus);
           return {
             ...user,
             isLiked: !likeStatus,

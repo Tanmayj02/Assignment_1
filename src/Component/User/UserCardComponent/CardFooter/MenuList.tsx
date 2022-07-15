@@ -1,9 +1,9 @@
 import {
-  faHeart,
   faPen,
-  faDeleteLeft,
-  faHeartBroken,
+  faTrash,
+  faHeart as disliked,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as liked } from "@fortawesome/free-regular-svg-icons";
 
 export const menuItems: {
   label: string;
@@ -12,8 +12,8 @@ export const menuItems: {
 }[] = [
   {
     label: "Like User",
-    iconSelected: faHeart,
-    iconNotSelected: faHeartBroken,
+    iconSelected: disliked,
+    iconNotSelected: liked,
   },
   {
     label: "Edit User",
@@ -22,7 +22,7 @@ export const menuItems: {
   },
   {
     label: "Delete User",
-    iconSelected: faDeleteLeft,
-    iconNotSelected: faDeleteLeft,
+    iconSelected: faTrash,
+    iconNotSelected: faTrash,
   },
 ];

@@ -116,6 +116,9 @@ const DisplayModal = ({
                     onChange={handleEditedEmailByUser}
                     defaultValue={editedEmailByUser}
                   />
+                  <Form.Control.Feedback type="invalid">
+                    Please provide a valid email.
+                  </Form.Control.Feedback>
                 </Col>
               </Row>
               <Row>
