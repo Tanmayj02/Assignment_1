@@ -3,7 +3,6 @@ import { Card, Container, Col } from "react-bootstrap";
 import CardBody from "./UserCardComponent/CardBody";
 import CardFooter from "./UserCardComponent/CardFooter/CardFooter";
 import CardHeader from "./UserCardComponent/CardHeader";
-import { menuItems } from "./UserCardComponent/CardFooter/MenuList";
 
 const User = ({ userDetails, onMenuItemClicked }: any) => {
   const { name, email, phone, website, username, id, isLiked } = userDetails;

@@ -2,14 +2,17 @@ import {
   faPen,
   faTrash,
   faHeart as disliked,
+  IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as liked } from "@fortawesome/free-regular-svg-icons";
 
-export const menuItems: {
+export interface menuItemType {
   label: string;
-  iconSelected: any;
-  iconNotSelected: any;
-}[] = [
+  iconSelected: IconDefinition;
+  iconNotSelected: IconDefinition;
+}
+
+export const menuItems: menuItemType[] = [
   {
     label: "Like User",
     iconSelected: disliked,

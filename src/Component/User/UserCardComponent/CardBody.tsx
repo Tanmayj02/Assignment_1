@@ -1,21 +1,9 @@
 import { Card, Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone, faMessage, faGlobe } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-import userDetail from "../../UserDetail";
 import { memo } from "react";
 
 const CardBody = ({ name, email, phone, website }: any) => {
-  // const users: userDetail[] = useSelector((state: any) => state.users);
-
-  // const filterUserDetails = users.filter((user: any) => {
-  //   if (user.id === id) {
-  //     return user;
-  //   }
-  // });
-
-  // const { name, email, phone, website } = filterUserDetails[0];
-
   return (
     <Container>
       <Card className="container content-justify p-2 ">

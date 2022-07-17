@@ -61,12 +61,9 @@ const DisplayModal = ({
     }
   };
   const handleEditedWebsiteByUser = (e: any) => {
-    const regex = new RegExp("[a-z0-9]+.+[a-z0-9]");
     editedWebsiteByUser = e.target.value;
     if (editedWebsiteByUser === "") {
       setInvalidWebsiteText("Website cannot be Empty");
-    } else if (!regex.test(editedWebsiteByUser)) {
-      setInvalidWebsiteText("Website field cannot be Blank");
     } else {
       setInvalidWebsiteText("");
     }
